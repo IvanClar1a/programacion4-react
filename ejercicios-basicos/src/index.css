@@ -1,0 +1,445 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-base: #05050b;
+  --glass: rgba(15, 20, 38, 0.62);
+  --glass-border: rgba(148, 163, 184, 0.16);
+  --cyan: #22d3ee;
+  --violet: #a855f7;
+  --pink: #ec4899;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Fondo con auroras animadas + grilla técnica */
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+.ambient-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.35;
+  z-index: -2;
+  pointer-events: none;
+  animation: floatOrb 16s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+  width: 460px;
+  height: 460px;
+  background: var(--violet);
+  top: -120px;
+  left: -100px;
+}
+
+.orb-2 {
+  width: 420px;
+  height: 420px;
+  background: var(--cyan);
+  top: 25%;
+  right: -120px;
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  width: 380px;
+  height: 380px;
+  background: var(--pink);
+  bottom: -100px;
+  left: 35%;
+  animation-delay: -9s;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, 35px) scale(1.12); }
+}
+
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at center, black 45%, transparent 95%);
+}
+
+/* Contenedor principal */
+.dashboard {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 56px 24px 88px;
+}
+
+/* Hero Header */
+.hero {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--cyan);
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.15);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.75); }
+}
+
+.hero h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  background: linear-gradient(90deg, #ffffff 0%, #22d3ee 35%, #a855f7 70%, #ec4899 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
+.hero-sub {
+  max-width: 600px;
+  margin: 0 auto 28px;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* Navegación rápida */
+.quick-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.nav-chip {
+  text-decoration: none;
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--glass-border);
+  transition: all 0.2s ease;
+}
+
+.nav-chip span {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--cyan);
+  margin-right: 4px;
+}
+
+.nav-chip:hover {
+  color: #ffffff;
+  border-color: var(--cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
+}
+
+/* Bento Grid */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.span-2 {
+  grid-column: span 2;
+}
+
+.span-1 {
+  grid-column: span 1;
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  .span-2, .span-1 {
+    grid-column: span 1;
+  }
+}
+
+/* Tarjetas Bento con borde holográfico */
+.bento-card {
+  position: relative;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  padding: 28px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.65);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.bento-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), var(--pink), transparent);
+  opacity: 0.45;
+  transition: opacity 0.25s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow:
+    0 24px 50px -12px rgba(0, 0, 0, 0.8),
+    0 0 32px -8px rgba(168, 85, 247, 0.28);
+}
+
+.bento-card:hover::before {
+  opacity: 1;
+}
+
+.card-header {
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.card-index {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+.card-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(168, 85, 247, 0.14);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: #e9d5ff;
+}
+
+.bento-card h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Tarjetas internas (Ej1, Ej3, Ej7) */
+.card-body div[style*="border: 1px solid"] {
+  flex: 1 1 200px;
+  width: auto !important;
+  max-width: 100% !important;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 27, 75, 0.45)) !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+  border-radius: 16px !important;
+  padding: 20px !important;
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-body div[style*="border: 1px solid"]:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: var(--cyan) !important;
+  box-shadow: 0 12px 28px -8px rgba(34, 211, 238, 0.25);
+}
+
+.card-body div[style*="border: 1px solid"] h3 {
+  font-size: 1.15rem;
+  color: #ffffff;
+}
+
+/* Badge ¡Oferta! en Ej7 */
+.card-ej7 p[style*="font-weight: bold"] {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--pink), var(--violet));
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(236, 72, 153, 0.55);
+}
+
+/* Display gigante para Contador (Ej2) y Temperatura (Ej4) */
+.card-ej2 h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 3.4rem !important;
+  line-height: 1;
+  background: linear-gradient(135deg, #ffffff, var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 18px rgba(34, 211, 238, 0.35));
+}
+
+.card-ej4 h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.8rem !important;
+  background: linear-gradient(90deg, #fbbf24, #f97316, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 16px rgba(249, 115, 22, 0.35));
+}
+
+/* Inputs futuristas */
+input {
+  background: rgba(5, 8, 22, 0.85) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  border-radius: 12px !important;
+  padding: 11px 16px !important;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input::placeholder {
+  color: #64748b;
+}
+
+input:focus {
+  border-color: var(--cyan) !important;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2), 0 0 20px rgba(34, 211, 238, 0.15);
+}
+
+/* Botones neon */
+button {
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 20px -4px rgba(139, 92, 246, 0.55);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px -4px rgba(168, 85, 247, 0.75);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+button:disabled {
+  background: rgba(30, 41, 59, 0.7);
+  color: #475569;
+  border-color: rgba(148, 163, 184, 0.1);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Listas estilizadas (Ej5 y Ej6) */
+ul {
+  list-style: none;
+  padding-left: 0 !important;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 14, 30, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 0 !important;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+li:hover {
+  border-color: rgba(34, 211, 238, 0.45);
+  transform: translateX(4px);
+}
+
+li button {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  box-shadow: none;
+}
+
+li button:hover:not(:disabled) {
+  background: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+}
