@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { UserList } from "./UserList";
-import { getUserIdFromToken, type User } from "./types";
+import { type User } from "./types";
 
 export default function App() {
   const [email, setEmail] = useState("");
@@ -17,16 +17,26 @@ export default function App() {
       return;
     }
 
-    const userId = getUserIdFromToken(token);
-    if (!userId) return;
+    async function loadCurrentUser() {
+      try {
+        const meResponse = await fetch(`${import.meta.env.VITE_API_URL}/user/me/id`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!meResponse.ok) return;
+        const { id }: { id: number } = await meResponse.json();
 
-    fetch(`${import.meta.env.VITE_API_URL}/user/${userId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    }).then(async (response) => {
-      if (!response.ok) return;
-      const data: User = await response.json();
-      setCurrentUser(data);
-    });
+        const userResponse = await fetch(`${import.meta.env.VITE_API_URL}/user/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!userResponse.ok) return;
+        const data: User = await userResponse.json();
+        setCurrentUser(data);
+      } catch {
+        // Error de red manejado en UserList
+      }
+    }
+
+    loadCurrentUser();
   }, [token]);
 
   async function handleSubmit(evento: FormEvent<HTMLFormElement>) {
